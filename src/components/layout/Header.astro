@@ -28,7 +28,7 @@ const isActive = (href: string) => (href === '/' ? path === '/' : path.startsWit
             <a
               href={link.href}
               aria-current={isActive(link.href) ? 'page' : undefined}
-              class="block py-3 font-display text-base tracking-widest text-muted uppercase transition-colors hover:text-foreground aria-[current=page]:text-foreground aria-[current=page]:shadow-[inset_0_-2px_0_var(--color-accent)] lg:px-3 lg:py-2 lg:text-sm"
+              class="block py-3 font-display text-base tracking-widest text-muted uppercase transition-colors hover:text-foreground aria-[current=page]:text-accent lg:aria-[current=page]:text-foreground lg:aria-[current=page]:shadow-[inset_0_-2px_0_var(--color-accent)] lg:px-3 lg:py-2 lg:text-sm"
             >
               {link.label}
             </a>

@@ -1,0 +1,15 @@
+# Sitio 100 % estático (SSG): sin funciones serverless ni cold starts.
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+# Los assets con hash de Astro nunca cambian: caché de un año en el navegador/CDN.
+[[headers]]
+  for = "/_astro/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/images/*"
+  [headers.values]
+    Cache-Control = "public, max-age=604800, stale-while-revalidate=86400"

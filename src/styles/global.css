@@ -159,6 +159,20 @@
     overscroll-behavior: contain;
   }
 
+  /* View Transitions: la única animación que queda es el "morph" de la imagen
+     del producto (tarjeta → ficha). Se acorta para no bloquear la interacción. */
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation-duration: 150ms;
+  }
+
+  /* Tras una navegación interna el contenido aparece ya colocado: sin el
+     fade-up escalonado del hero (hasta ~1,3 s), que se sentía como lag. */
+  html[data-navigated] .animate-fade-up {
+    animation: none;
+  }
+
   h1,
   h2,
   h3,

@@ -13,6 +13,13 @@ export default defineConfig({
   // añadiendo un adapter (@astrojs/node, @astrojs/vercel, etc.).
   output: 'static',
   trailingSlash: 'ignore',
+  // Precarga en segundo plano todas las rutas internas en cuanto sus enlaces
+  // entran en pantalla: al hacer clic el HTML ya está en caché y el cambio de
+  // página es inmediato (el sitio es pequeño, así que el coste es mínimo).
+  prefetch: {
+    prefetchAll: true,
+    defaultStrategy: 'viewport',
+  },
   vite: {
     plugins: [tailwindcss()],
   },
