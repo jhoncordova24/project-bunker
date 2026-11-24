@@ -48,7 +48,7 @@ export async function getProductsByCategory(categorySlug: string): Promise<Produ
   return (await getProducts()).filter((p) => p.category.slug === categorySlug);
 }
 
-export async function getFeaturedProducts(limit = 8): Promise<Product[]> {
+export async function getFeaturedProducts(limit = 4): Promise<Product[]> {
   return (await getProducts()).filter((p) => p.featured).slice(0, limit);
 }
 

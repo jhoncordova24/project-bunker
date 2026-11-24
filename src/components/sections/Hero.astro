@@ -4,19 +4,83 @@ import { buildWhatsAppLink } from '@/utils/whatsapp';
 import Container from '@/components/ui/Container.astro';
 import Button from '@/components/ui/Button.astro';
 import Icon from '@/components/ui/Icon.astro';
+
+// Botellas decorativas del hero: debajo del texto en móvil, a la derecha en escritorio. Orden: izquierda, centro, derecha.
+const bottles = [
+  {
+    src: '/images/products/flor-cania.avif',
+    wrap: 'left-[-6%] bottom-[2%] h-[78%] -rotate-8 z-0',
+    delay: '-2s',
+  },
+  {
+    src: '/images/products/red-label.avif',
+    wrap: 'left-1/2 -translate-x-1/2 bottom-0 h-full z-10',
+    delay: '0s',
+  },
+  {
+    src: '/images/products/jagermeister.avif',
+    wrap: 'right-[-6%] bottom-[4%] h-[74%] rotate-7 z-0',
+    delay: '-4s',
+  },
+];
 ---
 
 <section class="bg-hero relative overflow-hidden border-b border-line py-24 md:py-36">
-  <Container class="grid justify-items-start gap-4">
-    <p class="rounded-full border border-accent px-3 py-1 font-display text-xs tracking-ultra text-accent uppercase">
+  <div aria-hidden="true" class="absolute inset-0">
+    <div class="halo top-[5%] right-[8%] h-[50%] w-[32%] bg-accent/12 animate-drift-a motion-reduce:animate-none"></div>
+    <div class="halo bottom-[-20%] left-[-10%] h-[65%] w-[45%] bg-olive/35 animate-drift-b motion-reduce:animate-none"></div>
+    <div class="absolute inset-0 bg-radial-[ellipse_at_70%_40%] from-transparent from-30% to-background/90 to-80%"></div>
+    <div class="grain animate-grain motion-reduce:animate-none"></div>
+  </div>
+  <Container class="relative grid justify-items-start gap-4">
+    <div
+      aria-hidden="true"
+      style="animation-delay: 500ms"
+      class="animate-fade-up motion-reduce:animate-none pointer-events-none relative order-last -mt-4 aspect-square w-full max-w-96 justify-self-center lg:aspect-auto lg:absolute lg:top-1/2 lg:right-8 lg:mt-0 lg:h-[130%] lg:w-[44%] lg:max-w-150 lg:-translate-y-1/2"
+    >
+      {bottles.map((b) => (
+        <div class:list={['absolute aspect-square', b.wrap]}>
+          <img
+            src={b.src}
+            alt=""
+            loading="eager"
+            decoding="async"
+            width="500"
+            height="500"
+            style={`animation-delay: ${b.delay}`}
+            class="size-full animate-float object-contain drop-shadow-[0_24px_30px_rgb(0_0_0/0.6)] motion-reduce:animate-none"
+          />
+        </div>
+      ))}
+    </div>
+    <p
+      style="animation-delay: 0ms"
+      class="animate-fade-up motion-reduce:animate-none rounded-full border border-accent px-3 py-1 font-display text-xs tracking-ultra text-accent uppercase"
+    >
       {SITE.tagline} · Delivery
     </p>
-    <h1 class="text-hero font-bold tracking-wide uppercase">{SITE.name}</h1>
-    <p class="font-display text-2xl tracking-wider text-accent uppercase">{SITE.slogan}</p>
-    <p class="max-w-130 text-lg text-muted">
+    <h1
+      style="animation-delay: 100ms"
+      class="animate-fade-up motion-reduce:animate-none text-hero font-bold tracking-wide uppercase"
+    >
+      {SITE.name}
+    </h1>
+    <p
+      style="animation-delay: 200ms"
+      class="animate-fade-up motion-reduce:animate-none font-display text-2xl tracking-wider text-accent uppercase"
+    >
+      {SITE.slogan}
+    </p>
+    <p
+      style="animation-delay: 300ms"
+      class="animate-fade-up motion-reduce:animate-none max-w-130 text-lg text-muted"
+    >
       Whiskies, rones, licores y mucho más. Elige, escríbenos por WhatsApp y te lo llevamos.
     </p>
-    <div class="mt-4 flex flex-wrap gap-3">
+    <div
+      style="animation-delay: 400ms"
+      class="animate-fade-up motion-reduce:animate-none mt-4 flex flex-wrap gap-3"
+    >
       <Button href="/catalogo" size="lg">
         Ver catálogo <Icon name="arrowRight" size={18} />
       </Button>

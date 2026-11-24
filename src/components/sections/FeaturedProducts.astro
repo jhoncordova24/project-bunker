@@ -5,7 +5,7 @@ import SectionHeading from '@/components/ui/SectionHeading.astro';
 import Button from '@/components/ui/Button.astro';
 import ProductGrid from '@/components/product/ProductGrid.astro';
 
-const products = await getFeaturedProducts(8);
+const products = await getFeaturedProducts(4);
 ---
 
 <section class="section border-y border-line bg-surface">
@@ -21,6 +21,6 @@ const products = await getFeaturedProducts(8);
         Ver todo
       </Button>
     </div>
-    <ProductGrid products={products} />
+    <ProductGrid products={products} class="lg:grid-cols-4" />
   </Container>
 </section>

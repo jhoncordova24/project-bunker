@@ -12,13 +12,13 @@ const features: { icon: IconName; title: string; text: string }[] = [
 
 <section class="section">
   <Container>
-    <ul class="grid grid-cols-[repeat(auto-fit,minmax(min(100%,220px),1fr))] gap-8">
+    <ul class="grid grid-cols-2 gap-x-4 gap-y-8 lg:grid-cols-4 lg:gap-8">
       {features.map((f) => (
-        <li class="grid gap-2">
-          <span class="mb-2 grid size-13 place-items-center rounded-md border border-line bg-surface text-accent">
-            <Icon name={f.icon} size={26} />
+        <li class="grid content-start gap-1 md:gap-2">
+          <span class="mb-2 grid size-11 place-items-center rounded-md border border-line bg-surface text-accent md:size-13">
+            <Icon name={f.icon} size={22} />
           </span>
-          <h3 class="text-lg tracking-wide uppercase">{f.title}</h3>
+          <h3 class="text-base tracking-wide uppercase md:text-lg">{f.title}</h3>
           <p class="text-sm text-muted">{f.text}</p>
         </li>
       ))}

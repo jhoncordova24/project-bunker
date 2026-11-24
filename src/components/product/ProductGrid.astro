@@ -1,17 +1,28 @@
 ---
 import type { Product } from '@/types/catalog';
 import ProductCard from './ProductCard.astro';
+import { cn } from '@/utils/cn';
 
 interface Props {
   products: Product[];
   emptyMessage?: string;
+  class?: string;
 }
 
-const { products, emptyMessage = 'No hay productos disponibles por ahora.' } = Astro.props;
+const {
+  products,
+  emptyMessage = 'No hay productos disponibles por ahora.',
+  class: className,
+} = Astro.props;
 ---
 
 {products.length > 0 ? (
-  <ul class="grid grid-cols-2 gap-3 sm:grid-cols-[repeat(auto-fill,minmax(220px,1fr))] sm:gap-6">
+  <ul
+    class={cn(
+      'grid grid-cols-2 gap-3 sm:grid-cols-[repeat(auto-fill,minmax(220px,1fr))] sm:gap-6',
+      className,
+    )}
+  >
     {products.map((product) => (
       <li class="grid">
         <ProductCard product={product} />
