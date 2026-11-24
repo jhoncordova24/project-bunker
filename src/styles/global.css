@@ -76,6 +76,8 @@
   html {
     -webkit-text-size-adjust: 100%;
     scroll-behavior: smooth;
+    /* Reserva el espacio de la barra para que nada salte al bloquear el scroll */
+    scrollbar-gutter: stable;
   }
 
   body {
@@ -84,6 +86,16 @@
 
   main {
     @apply flex-1;
+  }
+
+  /* Con un modal abierto, la página de fondo no se desplaza (incluido móvil) */
+  html:has(dialog[open]),
+  html:has(dialog[open]) body {
+    overflow: hidden;
+  }
+
+  dialog {
+    overscroll-behavior: contain;
   }
 
   h1,
