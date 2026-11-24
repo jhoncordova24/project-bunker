@@ -1,0 +1,113 @@
+---
+import type { GetStaticPaths } from 'astro';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Container from '@/components/ui/Container.astro';
+import Breadcrumbs from '@/components/ui/Breadcrumbs.astro';
+import Button from '@/components/ui/Button.astro';
+import Badge from '@/components/ui/Badge.astro';
+import Icon from '@/components/ui/Icon.astro';
+import SectionHeading from '@/components/ui/SectionHeading.astro';
+import ProductImage from '@/components/product/ProductImage.astro';
+import ProductPrice from '@/components/product/ProductPrice.astro';
+import ProductGrid from '@/components/product/ProductGrid.astro';
+import { getProducts, getRelatedProducts } from '@/lib/catalog';
+import { formatVolume } from '@/utils/format';
+import { buildProductOrderLink } from '@/utils/whatsapp';
+
+export const getStaticPaths = (async () => {
+  const products = await getProducts();
+  return products.map((product) => ({
+    params: { slug: product.slug },
+    props: { product },
+  }));
+}) satisfies GetStaticPaths;
+
+const { product } = Astro.props;
+const related = await getRelatedProducts(product);
+
+const specs = [
+  { label: 'Marca', value: product.brand },
+  { label: 'Contenido', value: formatVolume(product.volumeMl) },
+  { label: 'Graduación', value: product.abv !== undefined ? `${product.abv}% vol.` : undefined },
+  { label: 'Origen', value: product.origin },
+].filter((s) => s.value);
+---
+
+<BaseLayout title={product.name} description={product.description} image={product.image}>
+  <Container>
+    <div class="pt-8">
+      <Breadcrumbs
+        items={[
+          { label: 'Inicio', href: '/' },
+          { label: 'Catálogo', href: '/catalogo' },
+          { label: product.category.name, href: `/catalogo/${product.category.slug}` },
+          { label: product.name },
+        ]}
+      />
+    </div>
+
+    <article class="grid gap-8 lg:grid-cols-2 lg:items-start lg:gap-12">
+      <div class="overflow-hidden rounded-lg border border-line">
+        <ProductImage product={product} eager />
+      </div>
+
+      <div class="grid justify-items-start gap-4">
+        <a
+          class="font-display text-sm tracking-eyebrow text-accent uppercase"
+          href={`/catalogo/${product.category.slug}`}
+        >
+          {product.category.name}
+        </a>
+        <h1 class="text-3xl uppercase">{product.name}</h1>
+        <ProductPrice price={product.price} compareAtPrice={product.compareAtPrice} size="lg" />
+
+        {product.inStock ? (
+          <Badge>Disponible</Badge>
+        ) : (
+          <Badge variant="danger">Agotado temporalmente</Badge>
+        )}
+
+        <p class="text-lg text-muted">{product.description}</p>
+
+        <dl class="grid w-full grid-cols-2 gap-3 border-y border-line py-4">
+          {specs.map((s) => (
+            <div>
+              <dt class="text-xs tracking-widest text-muted uppercase">{s.label}</dt>
+              <dd class="font-medium">{s.value}</dd>
+            </div>
+          ))}
+        </dl>
+
+        {product.tags.length > 0 && (
+          <ul class="flex flex-wrap gap-2">
+            {product.tags.map((t) => (
+              <li>
+                <Badge>{t}</Badge>
+              </li>
+            ))}
+          </ul>
+        )}
+
+        <Button
+          href={product.inStock ? buildProductOrderLink(product) : undefined}
+          external
+          size="lg"
+          disabled={!product.inStock}
+          class="mt-2 w-full xs:w-auto"
+        >
+          <Icon name="whatsapp" size={18} />
+          {product.inStock ? 'Pedir por WhatsApp' : 'No disponible'}
+        </Button>
+      </div>
+    </article>
+  </Container>
+
+  {related.length > 0 && (
+    <section class="section">
+      <Container>
+        <SectionHeading eyebrow="También te puede gustar" title="Relacionados" />
+        <ProductGrid products={related} />
+      </Container>
+    </section>
+  )}
+</BaseLayout>

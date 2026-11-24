@@ -1,0 +1,28 @@
+---
+import type { Category } from '@/types/catalog';
+
+interface Props {
+  categories: Category[];
+  /** slug de la categoría activa; undefined = "Todos" */
+  active?: string;
+}
+
+const { categories, active } = Astro.props;
+const items = [{ slug: undefined, name: 'Todos' }, ...categories];
+---
+
+<nav class="scrollbar-none mb-8 overflow-x-auto" aria-label="Categorías">
+  <ul class="flex gap-2">
+    {items.map((c) => (
+      <li>
+        <a
+          href={c.slug ? `/catalogo/${c.slug}` : '/catalogo'}
+          aria-current={c.slug === active ? 'page' : undefined}
+          class="block rounded-full border border-line px-4 py-2 text-sm whitespace-nowrap text-muted transition-colors hover:border-accent hover:text-foreground aria-[current=page]:border-accent aria-[current=page]:bg-accent aria-[current=page]:text-accent-contrast"
+        >
+          {c.name}
+        </a>
+      </li>
+    ))}
+  </ul>
+</nav>

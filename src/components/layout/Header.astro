@@ -1,0 +1,73 @@
+---
+import { NAV_LINKS } from '@/config/site';
+import { buildWhatsAppLink } from '@/utils/whatsapp';
+import Container from '@/components/ui/Container.astro';
+import Button from '@/components/ui/Button.astro';
+import Icon from '@/components/ui/Icon.astro';
+import Logo from './Logo.astro';
+
+const path = Astro.url.pathname.replace(/\/$/, '') || '/';
+const isActive = (href: string) => (href === '/' ? path === '/' : path.startsWith(href));
+---
+
+<header
+  class="group sticky top-0 z-50 border-b border-line bg-background/85 backdrop-blur-md"
+  data-header
+>
+  <Container class="flex h-header items-center justify-between">
+    <Logo />
+
+    <nav
+      id="main-nav"
+      aria-label="Principal"
+      class="absolute inset-x-0 top-header hidden border-b border-line bg-background p-4 group-data-open:block lg:static lg:flex lg:items-center lg:gap-6 lg:border-0 lg:bg-transparent lg:p-0"
+    >
+      <ul class="mb-4 flex flex-col gap-1 lg:mb-0 lg:flex-row">
+        {NAV_LINKS.map((link) => (
+          <li>
+            <a
+              href={link.href}
+              aria-current={isActive(link.href) ? 'page' : undefined}
+              class="block py-3 font-display text-base tracking-widest text-muted uppercase transition-colors hover:text-foreground aria-[current=page]:text-foreground aria-[current=page]:shadow-[inset_0_-2px_0_var(--color-accent)] lg:px-3 lg:py-2 lg:text-sm"
+            >
+              {link.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+      <Button href={buildWhatsAppLink()} external size="sm" class="w-full lg:w-auto">
+        <Icon name="whatsapp" size={16} /> Pedir
+      </Button>
+    </nav>
+
+    <button
+      class="block p-2 lg:hidden"
+      type="button"
+      aria-controls="main-nav"
+      aria-expanded="false"
+      data-menu-toggle
+    >
+      <span class="sr-only">Abrir menú</span>
+      <span class="group-data-open:hidden">
+        <Icon name="menu" size={24} />
+      </span>
+      <span class="hidden group-data-open:block">
+        <Icon name="close" size={24} />
+      </span>
+    </button>
+  </Container>
+</header>
+
+<script>
+  // Con ClientRouter el script corre una sola vez: se reengancha en cada navegación.
+  document.addEventListener('astro:page-load', () => {
+    const header = document.querySelector<HTMLElement>('[data-header]');
+    const toggle = header?.querySelector<HTMLButtonElement>('[data-menu-toggle]');
+
+    toggle?.addEventListener('click', () => {
+      const open = toggle.getAttribute('aria-expanded') !== 'true';
+      toggle.setAttribute('aria-expanded', String(open));
+      header?.toggleAttribute('data-open', open);
+    });
+  });
+</script>

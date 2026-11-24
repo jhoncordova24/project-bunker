@@ -1,0 +1,71 @@
+﻿---
+/**
+ * Verificación de edad. Se muestra una vez por navegador y guarda la
+ * confirmación en localStorage.
+ */
+import { SITE } from '@/config/site';
+import Button from '@/components/ui/Button.astro';
+---
+
+<dialog
+  data-age-gate
+  aria-labelledby="age-gate-title"
+  class="m-auto w-[calc(100%-2rem)] max-w-115 rounded-lg border border-line bg-surface text-foreground shadow-elevated backdrop:bg-background/90 backdrop:backdrop-blur-sm"
+>
+  <div class="grid gap-4 p-8 text-center">
+    <p class="font-display tracking-ultra text-accent uppercase">{SITE.name}</p>
+    <h2 id="age-gate-title" class="text-2xl uppercase">
+      ¿Eres mayor de {SITE.legalAge} años?
+    </h2>
+    <p class="text-muted">
+      Para entrar debes tener la edad legal para consumir bebidas alcohólicas.
+    </p>
+    <div class="mt-2 flex flex-wrap justify-center gap-3">
+      <Button data-age-accept size="lg">
+        Sí, soy mayor
+      </Button>
+      <Button data-age-reject variant="secondary" size="lg">
+        No
+      </Button>
+    </div>
+    <p class="text-sm text-danger" data-age-denied hidden>
+      Lo sentimos, no puedes acceder a este sitio. ¡Vuelve cuando cumplas {SITE.legalAge}!
+    </p>
+  </div>
+</dialog>
+
+<script>
+  const STORAGE_KEY = 'bunker:age-verified';
+
+  const read = () => {
+    try {
+      return localStorage.getItem(STORAGE_KEY) === 'true';
+    } catch {
+      return false;
+    }
+  };
+
+  document.addEventListener('astro:page-load', () => {
+    const dialog = document.querySelector<HTMLDialogElement>('[data-age-gate]');
+    if (dialog && !read()) setup(dialog);
+  });
+
+  function setup(dialog: HTMLDialogElement) {
+    dialog.showModal();
+    // Evita cerrar con Escape sin responder
+    dialog.addEventListener('cancel', (e) => e.preventDefault());
+
+    dialog.querySelector('[data-age-accept]')?.addEventListener('click', () => {
+      try {
+        localStorage.setItem(STORAGE_KEY, 'true');
+      } catch {
+        /* almacenamiento bloqueado: solo se cierra en esta visita */
+      }
+      dialog.close();
+    });
+
+    dialog.querySelector('[data-age-reject]')?.addEventListener('click', () => {
+      dialog.querySelector<HTMLElement>('[data-age-denied]')?.removeAttribute('hidden');
+    });
+  }
+</script>

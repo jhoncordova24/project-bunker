@@ -1,0 +1,42 @@
+---
+import type { Product } from '@/types/catalog';
+import { formatVolume, getDiscountPercent } from '@/utils/format';
+import Badge from '@/components/ui/Badge.astro';
+import ProductImage from './ProductImage.astro';
+import ProductPrice from './ProductPrice.astro';
+
+interface Props {
+  product: Product;
+}
+
+const { product } = Astro.props;
+const href = `/producto/${product.slug}`;
+const discount = getDiscountPercent(product.price, product.compareAtPrice);
+---
+
+<article class="group relative flex flex-col overflow-hidden rounded-md border border-line bg-surface transition-colors duration-300 hover:border-accent">
+  <a
+    href={href}
+    tabindex="-1"
+    aria-hidden="true"
+    class:list={['block', { 'opacity-55': !product.inStock }]}
+  >
+    <ProductImage product={product} />
+  </a>
+  <div class="absolute top-3 left-3 flex gap-1">
+    {discount > 0 && <Badge variant="accent">-{discount}%</Badge>}
+    {!product.inStock && <Badge variant="danger">Agotado</Badge>}
+  </div>
+  <div class="grid gap-2 p-4">
+    <p class="text-xs tracking-wider text-muted uppercase">
+      {product.category.name} · {formatVolume(product.volumeMl)}
+    </p>
+    <h3 class="font-sans text-base leading-[1.35] font-semibold">
+      <!-- Toda la tarjeta clicable sin anidar enlaces -->
+      <a href={href} class="after:absolute after:inset-0">
+        {product.name}
+      </a>
+    </h3>
+    <ProductPrice price={product.price} compareAtPrice={product.compareAtPrice} />
+  </div>
+</article>

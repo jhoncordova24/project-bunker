@@ -1,0 +1,30 @@
+---
+/**
+ * Layout para páginas internas: cabecera con título + contenido.
+ */
+import BaseLayout from './BaseLayout.astro';
+import Container from '@/components/ui/Container.astro';
+import SectionHeading from '@/components/ui/SectionHeading.astro';
+
+interface Props {
+  title: string;
+  eyebrow?: string;
+  description?: string;
+  metaTitle?: string;
+  metaDescription?: string;
+}
+
+const { title, eyebrow, description, metaTitle, metaDescription } = Astro.props;
+---
+
+<BaseLayout title={metaTitle ?? title} description={metaDescription ?? description}>
+  <div class="bg-radial-[ellipse_60%_100%_at_0%_0%] from-accent/8 to-transparent to-70% pt-12">
+    <Container>
+      <slot name="breadcrumbs" />
+      <SectionHeading as="h1" eyebrow={eyebrow} title={title} description={description} />
+    </Container>
+  </div>
+  <Container>
+    <slot />
+  </Container>
+</BaseLayout>

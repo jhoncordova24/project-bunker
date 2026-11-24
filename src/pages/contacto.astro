@@ -1,0 +1,110 @@
+---
+import PageLayout from '@/layouts/PageLayout.astro';
+import Button from '@/components/ui/Button.astro';
+import Icon from '@/components/ui/Icon.astro';
+import { SITE } from '@/config/site';
+
+const labelClass = 'grid w-full gap-2';
+const labelTextClass = 'text-sm text-muted';
+const fieldClass =
+  'w-full resize-y rounded-sm border border-line bg-surface px-4 py-3 transition-colors focus:border-accent focus:outline-none';
+const infoIconClass = 'shrink-0 text-accent';
+const infoLinkClass = 'transition-colors hover:text-accent';
+---
+
+<PageLayout
+  eyebrow="Contacto"
+  title="Hablemos"
+  description="Escríbenos para pedidos, eventos o consultas. Respondemos rápido."
+  metaTitle="Contacto"
+>
+  <div class="grid gap-12 lg:grid-cols-[1.4fr_1fr]">
+    <!--
+      Formulario solo-frontend: arma el mensaje y abre WhatsApp.
+      Cuando exista backend, cambia el envío por un POST a la API.
+    -->
+    <form
+      class="grid justify-items-start gap-4"
+      data-contact-form
+      data-whatsapp={SITE.contact.whatsapp}
+    >
+      <label class={labelClass}>
+        <span class={labelTextClass}>Nombre</span>
+        <input name="name" type="text" required autocomplete="name" class={fieldClass} />
+      </label>
+      <label class={labelClass}>
+        <span class={labelTextClass}>Teléfono</span>
+        <input name="phone" type="tel" autocomplete="tel" class={fieldClass} />
+      </label>
+      <label class={labelClass}>
+        <span class={labelTextClass}>Mensaje</span>
+        <textarea name="message" rows="5" required class={fieldClass}></textarea>
+      </label>
+      <Button type="submit" size="lg">
+        <Icon name="whatsapp" size={18} /> Enviar por WhatsApp
+      </Button>
+    </form>
+
+    <aside class="grid content-start gap-6 rounded-lg border border-line bg-surface p-8">
+      <ul class="grid gap-3 text-muted">
+        {SITE.contact.address && (
+          <li class="flex gap-3">
+            <Icon name="pin" class={infoIconClass} />
+            <a
+              href={SITE.contact.mapsUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              class={infoLinkClass}
+            >
+              {SITE.contact.address}
+            </a>
+          </li>
+        )}
+        <li class="flex gap-3">
+          <Icon name="phone" class={infoIconClass} />
+          <a href={`tel:${SITE.contact.phone.replace(/\s/g, '')}`} class={infoLinkClass}>
+            {SITE.contact.phone}
+          </a>
+        </li>
+        {SITE.contact.email && (
+          <li class="flex gap-3">
+            <Icon name="mail" class={infoIconClass} />
+            <a href={`mailto:${SITE.contact.email}`} class={infoLinkClass}>
+              {SITE.contact.email}
+            </a>
+          </li>
+        )}
+      </ul>
+      <h2 class="text-sm tracking-label uppercase">Horario</h2>
+      <ul class="grid gap-3 text-muted">
+        {SITE.hours.map((h) => (
+          <li class="flex gap-3">
+            <Icon name="clock" class={infoIconClass} />
+            <span class="grid whitespace-nowrap">
+              <strong class="font-medium text-foreground">{h.days}</strong>
+              <span>{h.time}</span>
+            </span>
+          </li>
+        ))}
+      </ul>
+    </aside>
+  </div>
+</PageLayout>
+
+<script>
+  document.addEventListener('astro:page-load', () => {
+    const form = document.querySelector<HTMLFormElement>('[data-contact-form]');
+
+    form?.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const data = new FormData(form);
+      const lines = [
+        `Hola, soy ${data.get('name')}.`,
+        data.get('phone') ? `Teléfono: ${data.get('phone')}` : '',
+        String(data.get('message') ?? ''),
+      ].filter(Boolean);
+      const url = `https://wa.me/${form.dataset.whatsapp}?text=${encodeURIComponent(lines.join('\n'))}`;
+      window.open(url, '_blank', 'noopener');
+    });
+  });
+</script>

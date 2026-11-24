@@ -1,0 +1,29 @@
+---
+import { formatPrice } from '@/utils/format';
+
+interface Props {
+  price: number;
+  compareAtPrice?: number;
+  size?: 'md' | 'lg';
+}
+
+const { price, compareAtPrice, size = 'md' } = Astro.props;
+const hasDiscount = compareAtPrice !== undefined && compareAtPrice > price;
+
+const sizes = {
+  md: 'text-lg',
+  lg: 'text-3xl',
+} as const;
+---
+
+<p class="flex flex-wrap items-baseline gap-2">
+  <span class:list={['font-display font-semibold text-accent', sizes[size]]}>
+    {formatPrice(price)}
+  </span>
+  {hasDiscount && (
+    <s class="text-sm text-muted">
+      <span class="sr-only">Antes</span>
+      {formatPrice(compareAtPrice)}
+    </s>
+  )}
+</p>

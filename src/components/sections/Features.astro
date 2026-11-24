@@ -1,0 +1,27 @@
+---
+import Container from '@/components/ui/Container.astro';
+import Icon, { type IconName } from '@/components/ui/Icon.astro';
+
+const features: { icon: IconName; title: string; text: string }[] = [
+  { icon: 'truck', title: 'Delivery rápido', text: 'Llevamos tu pedido a tu puerta, bien frío.' },
+  { icon: 'tag', title: 'Buenos precios', text: 'Promociones semanales y packs para reuniones.' },
+  { icon: 'bottle', title: 'Gran variedad', text: 'Desde clásicos hasta etiquetas especiales.' },
+  { icon: 'shield', title: 'Originales', text: 'Productos 100% legítimos y bien conservados.' },
+];
+---
+
+<section class="section">
+  <Container>
+    <ul class="grid grid-cols-[repeat(auto-fit,minmax(min(100%,220px),1fr))] gap-8">
+      {features.map((f) => (
+        <li class="grid gap-2">
+          <span class="mb-2 grid size-13 place-items-center rounded-md border border-line bg-surface text-accent">
+            <Icon name={f.icon} size={26} />
+          </span>
+          <h3 class="text-lg tracking-wide uppercase">{f.title}</h3>
+          <p class="text-sm text-muted">{f.text}</p>
+        </li>
+      ))}
+    </ul>
+  </Container>
+</section>

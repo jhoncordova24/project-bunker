@@ -1,0 +1,113 @@
+---
+import { NAV_LINKS, SITE } from '@/config/site';
+import Container from '@/components/ui/Container.astro';
+import Icon from '@/components/ui/Icon.astro';
+import Logo from './Logo.astro';
+import SocialSoon from './SocialSoon.astro';
+
+const year = new Date().getFullYear();
+const socials = [
+  { name: 'instagram', label: 'Instagram', href: SITE.social.instagram },
+  { name: 'facebook', label: 'Facebook', href: SITE.social.facebook },
+  { name: 'tiktok', label: 'TikTok', href: SITE.social.tiktok },
+] as const;
+
+const headingClass = 'mb-4 text-sm leading-tight tracking-label text-foreground uppercase';
+const linkClass = 'transition-colors hover:text-accent';
+const socialClass =
+  'grid size-[38px] cursor-pointer place-items-center rounded-sm border border-line transition-colors hover:text-accent';
+---
+
+<footer class="mt-16 border-t border-line bg-surface text-sm text-muted">
+  <Container class="grid gap-8 py-12 md:grid-cols-[1.6fr_1fr_1.3fr_1.3fr]">
+    <div class="grid content-start gap-4">
+      <Logo />
+      <p>{SITE.description}</p>
+      <ul class="flex gap-3">
+        {socials.map((s) => (
+          <li>
+            {s.href ? (
+              <a
+                href={s.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                class={socialClass}
+              >
+                <Icon name={s.name} label={s.label} />
+              </a>
+            ) : (
+              <button type="button" data-social-soon={s.label} class={socialClass}>
+                <Icon name={s.name} label={s.label} />
+              </button>
+            )}
+          </li>
+        ))}
+      </ul>
+    </div>
+
+    <nav aria-label="Pie de página">
+      <h2 class={headingClass}>Navegación</h2>
+      <ul class="grid gap-2">
+        {NAV_LINKS.map((l) => (
+          <li>
+            <a href={l.href} class={linkClass}>
+              {l.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+
+    <div>
+      <h2 class={headingClass}>Contacto</h2>
+      <ul class="grid gap-2">
+        {SITE.contact.address && (
+          <li class="flex items-center gap-2">
+            <Icon name="pin" size={16} class="shrink-0" />
+            {SITE.contact.address}
+          </li>
+        )}
+        <li class="flex items-center gap-2">
+          <Icon name="phone" size={16} class="shrink-0" />
+          <a href={`tel:${SITE.contact.phone.replace(/\s/g, '')}`} class={linkClass}>
+            {SITE.contact.phone}
+          </a>
+        </li>
+        {SITE.contact.email && (
+          <li class="flex items-center gap-2">
+            <Icon name="mail" size={16} class="shrink-0" />
+            <a href={`mailto:${SITE.contact.email}`} class={linkClass}>
+              {SITE.contact.email}
+            </a>
+          </li>
+        )}
+      </ul>
+    </div>
+
+    <div>
+      <h2 class={headingClass}>Horario</h2>
+      <!-- Días arriba, hora debajo: nunca se parte una hora a la mitad -->
+      <ul class="grid gap-3">
+        {SITE.hours.map((h) => (
+          <li class="flex flex-col whitespace-nowrap">
+            <span class="text-foreground">{h.days}</span>
+            <span>{h.time}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </Container>
+
+  <div class="border-t border-line py-6 text-center text-xs">
+    <Container class="grid gap-1">
+      <p>
+        Prohibida la venta de bebidas alcohólicas a menores de {SITE.legalAge} años. Toma con
+        responsabilidad.
+      </p>
+      <p>
+        © {year} {SITE.name}. Todos los derechos reservados.
+      </p>
+    </Container>
+  </div>
+  <SocialSoon />
+</footer>

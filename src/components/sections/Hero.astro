@@ -1,0 +1,28 @@
+---
+import { SITE } from '@/config/site';
+import { buildWhatsAppLink } from '@/utils/whatsapp';
+import Container from '@/components/ui/Container.astro';
+import Button from '@/components/ui/Button.astro';
+import Icon from '@/components/ui/Icon.astro';
+---
+
+<section class="bg-hero relative overflow-hidden border-b border-line py-24 md:py-36">
+  <Container class="grid justify-items-start gap-4">
+    <p class="rounded-full border border-accent px-3 py-1 font-display text-xs tracking-ultra text-accent uppercase">
+      {SITE.tagline} · Delivery
+    </p>
+    <h1 class="text-hero font-bold tracking-wide uppercase">{SITE.name}</h1>
+    <p class="font-display text-2xl tracking-wider text-accent uppercase">{SITE.slogan}</p>
+    <p class="max-w-130 text-lg text-muted">
+      Whiskies, rones, licores y mucho más. Elige, escríbenos por WhatsApp y te lo llevamos.
+    </p>
+    <div class="mt-4 flex flex-wrap gap-3">
+      <Button href="/catalogo" size="lg">
+        Ver catálogo <Icon name="arrowRight" size={18} />
+      </Button>
+      <Button href={buildWhatsAppLink()} external variant="secondary" size="lg">
+        <Icon name="whatsapp" size={18} /> Pedir por WhatsApp
+      </Button>
+    </div>
+  </Container>
+</section>

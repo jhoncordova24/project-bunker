@@ -1,0 +1,26 @@
+---
+import { getCategories, getProducts } from '@/lib/catalog';
+import Container from '@/components/ui/Container.astro';
+import SectionHeading from '@/components/ui/SectionHeading.astro';
+import CategoryCard from '@/components/product/CategoryCard.astro';
+
+const [categories, products] = await Promise.all([getCategories(), getProducts()]);
+const countBy = (slug: string) => products.filter((p) => p.category.slug === slug).length;
+---
+
+<section class="section">
+  <Container>
+    <SectionHeading
+      eyebrow="Explora"
+      title="Categorías"
+      description="Encuentra rápido lo que buscas para tu reunión, regalo o celebración."
+    />
+    <ul class="grid grid-cols-[repeat(auto-fill,minmax(min(100%,240px),1fr))] gap-4">
+      {categories.map((category) => (
+        <li class="grid">
+          <CategoryCard category={category} count={countBy(category.slug)} />
+        </li>
+      ))}
+    </ul>
+  </Container>
+</section>

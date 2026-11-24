@@ -1,0 +1,23 @@
+[
+  {
+    "id": "whisky",
+    "name": "Whisky",
+    "description": "Escoceses y blends para cada ocasión.",
+    "color": "#c8873a",
+    "order": 1
+  },
+  {
+    "id": "ron",
+    "name": "Ron",
+    "description": "Rones añejos, nacionales e importados.",
+    "color": "#9a5b2e",
+    "order": 2
+  },
+  {
+    "id": "licores",
+    "name": "Licores",
+    "description": "Licores de hierbas y especialidades.",
+    "color": "#5f8a4a",
+    "order": 3
+  }
+]

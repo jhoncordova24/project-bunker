@@ -1,0 +1,40 @@
+---
+import type { GetStaticPaths } from 'astro';
+import PageLayout from '@/layouts/PageLayout.astro';
+import Breadcrumbs from '@/components/ui/Breadcrumbs.astro';
+import CategoryFilter from '@/components/product/CategoryFilter.astro';
+import ProductGrid from '@/components/product/ProductGrid.astro';
+import { getCategories, getProductsByCategory } from '@/lib/catalog';
+
+export const getStaticPaths = (async () => {
+  const categories = await getCategories();
+  return categories.map((category) => ({
+    params: { categoria: category.slug },
+    props: { category, categories },
+  }));
+}) satisfies GetStaticPaths;
+
+const { category, categories } = Astro.props;
+const products = await getProductsByCategory(category.slug);
+---
+
+<PageLayout
+  eyebrow="Catálogo"
+  title={category.name}
+  description={category.description}
+  metaTitle={`${category.name} – Catálogo`}
+>
+  <Breadcrumbs
+    slot="breadcrumbs"
+    items={[
+      { label: 'Inicio', href: '/' },
+      { label: 'Catálogo', href: '/catalogo' },
+      { label: category.name },
+    ]}
+  />
+  <CategoryFilter categories={categories} active={category.slug} />
+  <ProductGrid
+    products={products}
+    emptyMessage={`Pronto tendremos productos de ${category.name.toLowerCase()}.`}
+  />
+</PageLayout>

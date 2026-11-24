@@ -1,0 +1,67 @@
+[
+  {
+    "id": "flor-de-cana-anejo-oro-4-750",
+    "name": "Flor de Caña Añejo Oro 4 años",
+    "brand": "Flor de Caña",
+    "category": "ron",
+    "price": 50,
+    "volumeMl": 750,
+    "origin": "Nicaragua",
+    "description": "Ron añejo de sabor suave y notas dulces.",
+    "image": "/images/products/flor-cania.avif",
+    "tags": ["4 años", "suave"],
+    "featured": true
+  },
+  {
+    "id": "johnnie-walker-red-label-750",
+    "name": "Johnnie Walker Red Label",
+    "brand": "Johnnie Walker",
+    "category": "whisky",
+    "price": 60,
+    "volumeMl": 750,
+    "origin": "Escocia",
+    "description": "Whisky Scotch de mezcla clásica y sabor intenso.",
+    "image": "/images/products/red-label.avif",
+    "tags": ["scotch", "blend"],
+    "featured": true
+  },
+  {
+    "id": "ballantines-finest-750",
+    "name": "Ballantine's Finest",
+    "brand": "Ballantine's",
+    "category": "whisky",
+    "price": 50,
+    "volumeMl": 750,
+    "origin": "Escocia",
+    "description": "Whisky suave y equilibrado, con notas dulces.",
+    "image": "/images/products/ballantines-finest.avif",
+    "tags": ["scotch", "suave"],
+    "featured": true
+  },
+  {
+    "id": "cartavio-selecto-5-750",
+    "name": "Ron Cartavio Selecto 5 años",
+    "brand": "Cartavio",
+    "category": "ron",
+    "price": 35,
+    "volumeMl": 750,
+    "origin": "Perú",
+    "description": "Ron peruano de 5 años, crujiente y dulce.",
+    "image": "/images/products/ron-cartavio-selecto.avif",
+    "tags": ["peruano", "5 años"],
+    "featured": true
+  },
+  {
+    "id": "jagermeister-700",
+    "name": "Jägermeister",
+    "brand": "Jägermeister",
+    "category": "licores",
+    "price": 80,
+    "volumeMl": 700,
+    "origin": "Alemania",
+    "description": "Licor de 56 hierbas con sabor intenso.",
+    "image": "/images/products/jagermeister.avif",
+    "tags": ["hierbas", "56 hierbas"],
+    "featured": true
+  }
+]

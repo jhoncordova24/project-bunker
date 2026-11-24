@@ -1,0 +1,25 @@
+---
+import { SITE } from '@/config/site';
+---
+
+<a href="/" class="inline-flex items-center gap-2 text-accent" aria-label={`${SITE.name} – inicio`}>
+  <svg class="size-[34px]" viewBox="0 0 32 32" aria-hidden="true">
+    <path d="M3 26V15a13 13 0 0 1 26 0v11z" fill="currentColor" opacity=".18"></path>
+    <path
+      d="M3 26V15a13 13 0 0 1 26 0v11M8 26v-8h16v8M1 26h30"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2.2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    ></path>
+  </svg>
+  <span class="grid gap-[3px] leading-none">
+    <span class="font-display text-xl leading-none font-bold tracking-wider text-foreground uppercase">
+      {SITE.name}
+    </span>
+    <span class="text-[0.65rem] leading-none tracking-ultra text-accent uppercase">
+      {SITE.tagline}
+    </span>
+  </span>
+</a>

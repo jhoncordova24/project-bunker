@@ -1,0 +1,25 @@
+---
+import PageLayout from '@/layouts/PageLayout.astro';
+import Features from '@/components/sections/Features.astro';
+import { SITE } from '@/config/site';
+---
+
+<PageLayout
+  eyebrow="Nosotros"
+  title={`Bienvenido a ${SITE.name}`}
+  description="Tu reserva de confianza para cada reunión, celebración o regalo."
+  metaTitle="Nosotros"
+>
+  <div class="grid max-w-170 gap-4 text-lg text-muted">
+    <p>
+      En {SITE.name} creemos que una buena botella hace la diferencia. Nacimos con la idea de tener
+      un lugar donde encontrar desde los clásicos de siempre hasta etiquetas especiales, con
+      atención cercana y entregas rápidas.
+    </p>
+    <p>
+      Seleccionamos cada producto con cuidado, garantizando su origen y buen estado. Ya sea una
+      noche con amigos o un regalo especial, aquí encuentras lo que buscas.
+    </p>
+  </div>
+  <Features />
+</PageLayout>

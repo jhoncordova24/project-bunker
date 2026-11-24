@@ -1,0 +1,28 @@
+---
+import { cn } from '@/utils/cn';
+
+interface Props {
+  eyebrow?: string;
+  title: string;
+  description?: string;
+  align?: 'left' | 'center';
+  as?: 'h1' | 'h2';
+  class?: string;
+}
+const {
+  eyebrow,
+  title,
+  description,
+  align = 'left',
+  as: Heading = 'h2',
+  class: className,
+} = Astro.props;
+---
+
+<header
+  class={cn('mb-8 grid max-w-160 gap-3', align === 'center' && 'mx-auto text-center', className)}
+>
+  {eyebrow && <p class="font-display text-sm tracking-eyebrow text-accent uppercase">{eyebrow}</p>}
+  <Heading class="text-3xl uppercase">{title}</Heading>
+  {description && <p class="text-muted">{description}</p>}
+</header>

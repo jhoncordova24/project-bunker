@@ -1,0 +1,69 @@
+---
+/**
+ * Imagen del producto. Si no hay imagen, dibuja una botella SVG con el color
+ * de su categoría, para que el catálogo se vea bien desde el primer día.
+ */
+import type { Product } from '@/types/catalog';
+
+interface Props {
+  product: Product;
+  eager?: boolean;
+}
+
+const { product, eager = false } = Astro.props;
+const gradientId = `g-${product.slug}`;
+// Texto de la etiqueta: primera palabra de la marca, ajustada al ancho si es larga
+const label = (product.brand.split(' ')[0] ?? '').toUpperCase().slice(0, 13);
+const labelFit = label.length > 6 ? { textLength: 26, lengthAdjust: 'spacingAndGlyphs' } : {};
+---
+
+<div
+  class="grid aspect-4/5 place-items-center overflow-hidden bg-surface-2 bg-radial-[circle_at_50%_70%] from-(--tint)/22 to-transparent to-60%"
+  style={`--tint: ${product.category.color}`}
+  transition:name={`product-${product.slug}`}
+>
+  {product.image ? (
+    <img
+      src={product.image}
+      alt={product.name}
+      loading={eager ? 'eager' : 'lazy'}
+      decoding="async"
+      class="size-full object-contain p-[6%] drop-shadow-[0_14px_20px_rgb(0_0_0/0.55)]"
+      width="500"
+      height="500"
+    />
+  ) : (
+    <svg
+      viewBox="0 0 120 150"
+      role="img"
+      aria-label={product.name}
+      class="h-auto w-[62%] drop-shadow-[0_12px_18px_rgb(0_0_0/0.5)]"
+    >
+      <defs>
+        <linearGradient id={gradientId} x1="0" x2="1">
+          <stop offset="0" stop-color="var(--tint)" stop-opacity=".55" />
+          <stop offset=".5" stop-color="var(--tint)" stop-opacity=".95" />
+          <stop offset="1" stop-color="var(--tint)" stop-opacity=".45" />
+        </linearGradient>
+      </defs>
+      <path
+        d="M53 14h14v20c0 6 13 12 13 26v76a4 4 0 0 1-4 4H44a4 4 0 0 1-4-4V60c0-14 13-20 13-26z"
+        fill={`url(#${gradientId})`}
+      />
+      <rect x="52" y="8" width="16" height="8" rx="2" fill="var(--tint)" />
+      <rect x="44" y="78" width="32" height="34" rx="2" fill="#0d0e0b" opacity=".75" />
+      <text
+        x="60"
+        y="98"
+        text-anchor="middle"
+        font-family="Oswald, sans-serif"
+        font-size="8"
+        fill="var(--tint)"
+        letter-spacing="1"
+        {...labelFit}
+      >
+        {label}
+      </text>
+    </svg>
+  )}
+</div>

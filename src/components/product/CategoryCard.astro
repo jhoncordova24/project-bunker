@@ -1,0 +1,30 @@
+---
+import type { Category } from '@/types/catalog';
+import Icon from '@/components/ui/Icon.astro';
+
+interface Props {
+  category: Category;
+  count?: number;
+}
+
+const { category, count } = Astro.props;
+---
+
+<a
+  href={`/catalogo/${category.slug}`}
+  style={`--tint: ${category.color}`}
+  class="group relative grid gap-1 overflow-hidden rounded-md border border-line bg-surface bg-linear-135 from-(--tint)/16 to-transparent to-60% p-6 transition-colors hover:border-(--tint)"
+>
+  <span class="mb-3 text-(--tint)">
+    <Icon name="bottle" size={26} />
+  </span>
+  <span class="font-display text-xl tracking-wide uppercase">{category.name}</span>
+  {count !== undefined && (
+    <span class="text-sm text-muted">
+      {count} {count === 1 ? 'producto' : 'productos'}
+    </span>
+  )}
+  <span class="absolute right-6 bottom-6 text-muted transition-[color,transform] group-hover:translate-x-1 group-hover:text-(--tint)">
+    <Icon name="arrowRight" size={18} />
+  </span>
+</a>

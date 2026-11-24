@@ -1,0 +1,26 @@
+---
+import { getFeaturedProducts } from '@/lib/catalog';
+import Container from '@/components/ui/Container.astro';
+import SectionHeading from '@/components/ui/SectionHeading.astro';
+import Button from '@/components/ui/Button.astro';
+import ProductGrid from '@/components/product/ProductGrid.astro';
+
+const products = await getFeaturedProducts(8);
+---
+
+<section class="section border-y border-line bg-surface">
+  <Container>
+    <div class="mb-8 flex flex-wrap items-end justify-between gap-4">
+      <SectionHeading
+        eyebrow="Lo más pedido"
+        title="Destacados"
+        description="Los favoritos de nuestros clientes."
+        class="mb-0"
+      />
+      <Button href="/catalogo" variant="secondary">
+        Ver todo
+      </Button>
+    </div>
+    <ProductGrid products={products} />
+  </Container>
+</section>

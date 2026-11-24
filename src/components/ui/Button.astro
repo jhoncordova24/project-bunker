@@ -1,0 +1,56 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+import { cn } from '@/utils/cn';
+
+type Variant = 'primary' | 'secondary' | 'ghost';
+type Size = 'sm' | 'md' | 'lg';
+
+type Props = {
+  variant?: Variant;
+  size?: Size;
+  href?: string;
+  external?: boolean;
+  class?: string;
+} & Omit<HTMLAttributes<'button'>, 'class'>;
+
+const {
+  variant = 'primary',
+  size = 'md',
+  href,
+  external = false,
+  class: className,
+  type = 'button',
+  ...rest
+} = Astro.props;
+
+const base =
+  'inline-flex items-center justify-center gap-2 rounded-sm border border-transparent font-display font-medium tracking-wider whitespace-nowrap uppercase transition-[background-color,border-color,color,transform] active:translate-y-px disabled:cursor-not-allowed disabled:opacity-50';
+
+const variants: Record<Variant, string> = {
+  primary: 'bg-accent text-accent-contrast hover:bg-accent-strong',
+  secondary: 'border-line bg-surface-2 hover:border-accent',
+  ghost: 'bg-transparent text-foreground hover:text-accent',
+};
+
+const sizes: Record<Size, string> = {
+  sm: 'px-3 py-2 text-xs',
+  md: 'px-6 py-3 text-sm',
+  lg: 'px-8 py-4 text-base',
+};
+
+const classes = cn(base, variants[variant], sizes[size], className);
+---
+
+{href ? (
+  <a
+    href={href}
+    class={classes}
+    {...(external && { target: '_blank', rel: 'noopener noreferrer' })}
+  >
+    <slot />
+  </a>
+) : (
+  <button type={type} class={classes} {...rest}>
+    <slot />
+  </button>
+)}

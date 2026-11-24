@@ -1,0 +1,18 @@
+---
+import PageLayout from '@/layouts/PageLayout.astro';
+import CategoryFilter from '@/components/product/CategoryFilter.astro';
+import ProductGrid from '@/components/product/ProductGrid.astro';
+import { getCategories, getProducts } from '@/lib/catalog';
+
+const [categories, products] = await Promise.all([getCategories(), getProducts()]);
+---
+
+<PageLayout
+  eyebrow="Catálogo"
+  title="Todos los productos"
+  description="Explora nuestra selección completa de whiskies, rones y licores."
+  metaTitle="Catálogo"
+>
+  <CategoryFilter categories={categories} />
+  <ProductGrid products={products} />
+</PageLayout>
