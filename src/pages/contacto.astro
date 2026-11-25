@@ -92,19 +92,17 @@ const infoLinkClass = 'transition-colors hover:text-accent';
 </PageLayout>
 
 <script>
-  document.addEventListener('astro:page-load', () => {
-    const form = document.querySelector<HTMLFormElement>('[data-contact-form]');
+  const form = document.querySelector<HTMLFormElement>('[data-contact-form]');
 
-    form?.addEventListener('submit', (event) => {
-      event.preventDefault();
-      const data = new FormData(form);
-      const lines = [
-        `Hola, soy ${data.get('name')}.`,
-        data.get('phone') ? `Teléfono: ${data.get('phone')}` : '',
-        String(data.get('message') ?? ''),
-      ].filter(Boolean);
-      const url = `https://wa.me/${form.dataset.whatsapp}?text=${encodeURIComponent(lines.join('\n'))}`;
-      window.open(url, '_blank', 'noopener');
-    });
+  form?.addEventListener('submit', (event) => {
+    event.preventDefault();
+    const data = new FormData(form);
+    const lines = [
+      `Hola, soy ${data.get('name')}.`,
+      data.get('phone') ? `Teléfono: ${data.get('phone')}` : '',
+      String(data.get('message') ?? ''),
+    ].filter(Boolean);
+    const url = `https://wa.me/${form.dataset.whatsapp}?text=${encodeURIComponent(lines.join('\n'))}`;
+    window.open(url, '_blank', 'noopener');
   });
 </script>

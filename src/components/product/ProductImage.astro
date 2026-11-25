@@ -20,7 +20,6 @@ const labelFit = label.length > 6 ? { textLength: 26, lengthAdjust: 'spacingAndG
 <div
   class="grid aspect-4/5 place-items-center overflow-hidden bg-surface-2 bg-radial-[circle_at_50%_70%] from-(--tint)/22 to-transparent to-60%"
   style={`--tint: ${product.category.color}`}
-  transition:name={`product-${product.slug}`}
 >
   {product.image ? (
     <img

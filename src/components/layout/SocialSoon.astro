@@ -12,7 +12,7 @@ import { buildWhatsAppLink } from '@/utils/whatsapp';
 <dialog
   data-social-dialog
   aria-labelledby="social-soon-title"
-  class="m-auto w-[calc(100%-2rem)] max-w-100 scale-95 rounded-lg border border-line bg-surface text-foreground opacity-0 shadow-elevated transition-[opacity,scale,display,overlay] transition-discrete duration-300 ease-out backdrop:bg-background/80 backdrop:opacity-0 backdrop:backdrop-blur-sm backdrop:transition-[opacity,display,overlay] backdrop:transition-discrete backdrop:duration-300 open:scale-100 open:opacity-100 open:backdrop:opacity-100 starting:open:scale-95 starting:open:opacity-0 starting:open:backdrop:opacity-0"
+  class="m-auto w-[calc(100%-2rem)] max-w-100 scale-95 rounded-lg border border-line bg-surface text-foreground opacity-0 shadow-elevated transition-[opacity,scale,display,overlay] transition-discrete duration-300 ease-out backdrop:bg-background/90 backdrop:opacity-0 backdrop:transition-[opacity,display,overlay] backdrop:transition-discrete backdrop:duration-300 open:scale-100 open:opacity-100 open:backdrop:opacity-100 starting:open:scale-95 starting:open:opacity-0 starting:open:backdrop:opacity-0"
 >
   <button
     type="button"
@@ -41,7 +41,7 @@ import { buildWhatsAppLink } from '@/utils/whatsapp';
 </dialog>
 
 <script>
-  // Delegación en `document`: sobrevive a las navegaciones del ClientRouter.
+  // Delegación en `document`: un solo listener para todos los botones.
   document.addEventListener('click', (event) => {
     const target = event.target as Element;
     const dialog = document.querySelector<HTMLDialogElement>('[data-social-dialog]');

@@ -1,6 +1,5 @@
 ---
 import '@/styles/global.css';
-import { ClientRouter } from 'astro:transitions';
 import { SITE } from '@/config/site';
 import Header from '@/components/layout/Header.astro';
 import Footer from '@/components/layout/Footer.astro';
@@ -23,8 +22,8 @@ const ogImage = new URL(image ?? '/og-image.jpg', Astro.site).href;
 ---
 
 <!doctype html>
-<!-- Sin fundido global: el cambio de página es instantáneo -->
-<html lang="es" transition:animate="none">
+<!-- Navegación multipágina nativa (MPA) + prefetch: cambio de página instantáneo -->
+<html lang="es">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -63,14 +62,16 @@ const ogImage = new URL(image ?? '/og-image.jpg', Astro.site).href;
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Oswald:wght@500;600;700&display=swap"
       rel="stylesheet"
     />
-    <!-- Navegación sin recarga completa (tipo SPA) -->
-    <ClientRouter />
     <script is:inline>
-      // Marca las páginas que llegan por navegación del ClientRouter para que
-      // las animaciones de entrada (hero) solo se vean en la primera carga.
-      document.addEventListener('astro:before-swap', (e) => {
-        e.newDocument.documentElement.setAttribute('data-navigated', '');
-      });
+      // Las animaciones de entrada del hero solo se ven en la primera página de
+      // la visita: en las siguientes el contenido aparece ya colocado.
+      try {
+        if (sessionStorage.getItem('bunker:visited')) {
+          document.documentElement.setAttribute('data-navigated', '');
+        } else {
+          sessionStorage.setItem('bunker:visited', '1');
+        }
+      } catch {}
     </script>
     <slot name="head" />
   </head>

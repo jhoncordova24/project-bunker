@@ -11,7 +11,7 @@ const isActive = (href: string) => (href === '/' ? path === '/' : path.startsWit
 ---
 
 <header
-  class="group sticky top-0 z-50 border-b border-line bg-background/85 backdrop-blur-md"
+  class="group sticky top-0 z-50 border-b border-line bg-background/95 lg:bg-background/85 lg:backdrop-blur-md"
   data-header
 >
   <Container class="flex h-header items-center justify-between">
@@ -59,15 +59,12 @@ const isActive = (href: string) => (href === '/' ? path === '/' : path.startsWit
 </header>
 
 <script>
-  // Con ClientRouter el script corre una sola vez: se reengancha en cada navegación.
-  document.addEventListener('astro:page-load', () => {
-    const header = document.querySelector<HTMLElement>('[data-header]');
-    const toggle = header?.querySelector<HTMLButtonElement>('[data-menu-toggle]');
+  const header = document.querySelector<HTMLElement>('[data-header]');
+  const toggle = header?.querySelector<HTMLButtonElement>('[data-menu-toggle]');
 
-    toggle?.addEventListener('click', () => {
-      const open = toggle.getAttribute('aria-expanded') !== 'true';
-      toggle.setAttribute('aria-expanded', String(open));
-      header?.toggleAttribute('data-open', open);
-    });
+  toggle?.addEventListener('click', () => {
+    const open = toggle.getAttribute('aria-expanded') !== 'true';
+    toggle.setAttribute('aria-expanded', String(open));
+    header?.toggleAttribute('data-open', open);
   });
 </script>

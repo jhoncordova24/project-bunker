@@ -23,35 +23,52 @@ const bottles = [
     delay: '-4s',
   },
 ];
+
+// En móvil los dos botones van lado a lado, más compactos, para no robar altura.
+const ctaClass = 'px-3 py-3 text-sm xs:px-8 xs:py-4 xs:text-base';
 ---
 
-<section class="bg-hero relative overflow-hidden border-b border-line py-24 md:py-36">
+{/* Móvil/tablet: el hero ocupa justo una pantalla (bajo la cabecera) y las
+    botellas se encogen para caber en el espacio que deja el texto.
+    Escritorio: texto a la izquierda y botellas a la derecha. */}
+<section class="bg-hero relative flex min-h-[calc(100svh-var(--spacing-header))] flex-col overflow-hidden border-b border-line py-8 md:py-12 lg:block lg:min-h-0 lg:py-36">
   <div aria-hidden="true" class="absolute inset-0">
-    <div class="halo top-[5%] right-[8%] h-[50%] w-[32%] bg-accent/12 animate-drift-a motion-reduce:animate-none"></div>
-    <div class="halo bottom-[-20%] left-[-10%] h-[65%] w-[45%] bg-olive/35 animate-drift-b motion-reduce:animate-none"></div>
+    <div class="halo top-[5%] right-[8%] h-[50%] w-[32%] bg-radial-[closest-side] from-accent/14 to-transparent animate-drift-a motion-reduce:animate-none"></div>
+    <div class="halo bottom-[-20%] left-[-10%] h-[65%] w-[45%] bg-radial-[closest-side] from-olive/40 to-transparent animate-drift-b motion-reduce:animate-none"></div>
     <div class="absolute inset-0 bg-radial-[ellipse_at_70%_40%] from-transparent from-30% to-background/90 to-80%"></div>
-    <div class="grain animate-grain motion-reduce:animate-none"></div>
+    <div class="grain md:animate-grain motion-reduce:animate-none"></div>
   </div>
-  <Container class="relative grid justify-items-start gap-4">
+  <Container class="relative flex flex-1 flex-col items-start justify-center gap-3 lg:grid lg:justify-normal lg:justify-items-start lg:gap-4">
     <div
       aria-hidden="true"
       style="animation-delay: 500ms"
-      class="animate-fade-up motion-reduce:animate-none pointer-events-none relative order-last -mt-4 aspect-square w-full max-w-96 justify-self-center lg:aspect-auto lg:absolute lg:top-1/2 lg:right-8 lg:mt-0 lg:h-[130%] lg:w-[44%] lg:max-w-150 lg:-translate-y-1/2"
+      class="animate-fade-up motion-reduce:animate-none pointer-events-none relative order-last max-h-80 min-h-32 w-full flex-1 self-center lg:absolute lg:top-1/2 lg:right-8 lg:h-[130%] lg:max-h-none lg:min-h-0 lg:w-[44%] lg:max-w-150 lg:-translate-y-1/2"
     >
-      {bottles.map((b) => (
-        <div class:list={['absolute aspect-square', b.wrap]}>
-          <img
-            src={b.src}
-            alt=""
-            loading="eager"
-            decoding="async"
-            width="500"
-            height="500"
-            style={`animation-delay: ${b.delay}`}
-            class="size-full animate-float object-contain drop-shadow-[0_24px_30px_rgb(0_0_0/0.6)] motion-reduce:animate-none"
-          />
-        </div>
-      ))}
+      {/* Cuadrado ajustado a la altura disponible: en móvil el grupo se
+          encoge sin que las botellas se separen. */}
+      <div class="absolute inset-y-0 left-1/2 aspect-square -translate-x-1/2 lg:right-0 lg:left-0 lg:aspect-auto lg:translate-x-0">
+        {bottles.map((b) => (
+          <div class:list={['absolute aspect-square', b.wrap]}>
+            {/* La animación va en una capa propia y la sombra en la imagen: así la
+              sombra se pinta una vez dentro de la capa en vez de recalcularse
+              en la GPU en cada fotograma. */}
+            <div
+              style={`animation-delay: ${b.delay}`}
+              class="size-full animate-float will-change-transform motion-reduce:animate-none"
+            >
+              <img
+                src={b.src}
+                alt=""
+                loading="eager"
+                decoding="async"
+                width="500"
+                height="500"
+                class="size-full object-contain drop-shadow-[0_24px_30px_rgb(0_0_0/0.6)]"
+              />
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
     <p
       style="animation-delay: 0ms"
@@ -67,25 +84,25 @@ const bottles = [
     </h1>
     <p
       style="animation-delay: 200ms"
-      class="animate-fade-up motion-reduce:animate-none font-display text-2xl tracking-wider text-accent uppercase"
+      class="animate-fade-up motion-reduce:animate-none font-display text-xl tracking-wider text-accent uppercase md:text-2xl"
     >
       {SITE.slogan}
     </p>
     <p
       style="animation-delay: 300ms"
-      class="animate-fade-up motion-reduce:animate-none max-w-130 text-lg text-muted"
+      class="animate-fade-up motion-reduce:animate-none max-w-130 text-base text-muted md:text-lg"
     >
       Whiskies, rones, licores y mucho más. Elige, escríbenos por WhatsApp y te lo llevamos.
     </p>
     <div
       style="animation-delay: 400ms"
-      class="animate-fade-up motion-reduce:animate-none mt-4 flex flex-wrap gap-3"
+      class="animate-fade-up motion-reduce:animate-none mt-2 grid w-full grid-cols-2 gap-2 xs:flex xs:w-auto xs:flex-wrap xs:gap-3 md:mt-4"
     >
-      <Button href="/catalogo" size="lg">
+      <Button href="/catalogo" size="lg" class={ctaClass}>
         Ver catálogo <Icon name="arrowRight" size={18} />
       </Button>
-      <Button href={buildWhatsAppLink()} external variant="secondary" size="lg">
-        <Icon name="whatsapp" size={18} /> Pedir por WhatsApp
+      <Button href={buildWhatsAppLink()} external variant="secondary" size="lg" class={ctaClass}>
+        <Icon name="whatsapp" size={18} /> <span><span class="hidden xs:inline">Pedir por </span>WhatsApp</span>
       </Button>
     </div>
   </Container>

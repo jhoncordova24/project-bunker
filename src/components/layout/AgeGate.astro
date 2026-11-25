@@ -10,7 +10,7 @@ import Button from '@/components/ui/Button.astro';
 <dialog
   data-age-gate
   aria-labelledby="age-gate-title"
-  class="m-auto w-[calc(100%-2rem)] max-w-115 rounded-lg border border-line bg-surface text-foreground shadow-elevated backdrop:bg-background/90 backdrop:backdrop-blur-sm"
+  class="m-auto w-[calc(100%-2rem)] max-w-115 rounded-lg border border-line bg-surface text-foreground shadow-elevated backdrop:bg-background/90"
 >
   <div class="grid gap-4 p-8 text-center">
     <p class="font-display tracking-ultra text-accent uppercase">{SITE.name}</p>
@@ -45,10 +45,8 @@ import Button from '@/components/ui/Button.astro';
     }
   };
 
-  document.addEventListener('astro:page-load', () => {
-    const dialog = document.querySelector<HTMLDialogElement>('[data-age-gate]');
-    if (dialog && !read()) setup(dialog);
-  });
+  const dialog = document.querySelector<HTMLDialogElement>('[data-age-gate]');
+  if (dialog && !read()) setup(dialog);
 
   function setup(dialog: HTMLDialogElement) {
     dialog.showModal();

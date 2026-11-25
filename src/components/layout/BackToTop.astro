@@ -18,16 +18,19 @@ import Icon from '@/components/ui/Icon.astro';
   /** Distancia de scroll (px) a partir de la cual se muestra el botón */
   const THRESHOLD = 400;
 
+  const button = document.querySelector<HTMLElement>('[data-back-to-top]');
+  let visible = false;
+
+  // Solo toca el DOM cuando cambia el estado, no en cada evento de scroll.
   const update = () => {
-    document
-      .querySelector('[data-back-to-top]')
-      ?.toggleAttribute('data-visible', window.scrollY > THRESHOLD);
+    const next = window.scrollY > THRESHOLD;
+    if (next === visible) return;
+    visible = next;
+    button?.toggleAttribute('data-visible', next);
   };
 
-  // `window` y `document` persisten entre navegaciones del ClientRouter,
-  // así que estos listeners se registran una sola vez.
   window.addEventListener('scroll', update, { passive: true });
-  document.addEventListener('astro:page-load', update);
+  update();
 
   document.addEventListener('click', (event) => {
     if (!(event.target as Element).closest('[data-back-to-top]')) return;
